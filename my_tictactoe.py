@@ -18,9 +18,13 @@ def numarate_cells():  # tu powinien przyjmować tablicę i sam se ją tak numer
     return numerated_board
 
 
-def select_walid_cell(board):
+def select_valid_cell(board):
     while True:
-        choice = int(input("Podaj komórkę"))
+        choice = (input("Podaj komórkę"))
+        if choice not in'123456789':
+            print("Podaj liczbę od 1 do 9")
+            continue
+        choice = int(choice)
         i = (choice - 1) // 3
         j = (choice - 1) % 3
         # print(i, j)
@@ -54,9 +58,8 @@ def switch_players(active_player, players):
 
 
 def player_move(board, active_player):
-    i, j = select_walid_cell(board)
+    i, j = select_valid_cell(board)
     board[i][j] = active_player
-    print_board(board)
     return board
 
 
@@ -112,7 +115,7 @@ def check_diagonal_right_left(board, active_player):
     return False
 
 
-def check_if_full(board, active_player):
+def check_if_full(board):
     counter = 0
     for i in range(size):
         for j in range(size):
@@ -142,10 +145,11 @@ def main():
     print_board(numarate_cells())
     while True:
         player_move(board, active_player)
-        if check_all(board, active_player) == True:
+        print_board(board)
+        if check_all(board, active_player):
             print("Wygrywa", players[active_player])
             break
-        elif check_if_full(board, active_player) == True:
+        elif check_if_full(board):
             break
         else:
             active_player = switch_players(active_player, players)
